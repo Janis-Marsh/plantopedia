@@ -1,0 +1,17 @@
+{
+  "name": "plantopedia",
+  "version": "1.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Janis_Marshall <jmarsh724@west-mec.org> (https://github.com/Janis-Marsh)",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.10.1"
+  }
+}
