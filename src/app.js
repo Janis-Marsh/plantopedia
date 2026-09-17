@@ -1,8 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
-const MONGODB_URI = process.env.MONGODB_URI
-
 // Remember that the schema is the blue print for a record in the database and is used to validate new record data before the record is created
 const plantSchema = new mongoose.Schema({
     nickname: {type: String, required: true},
@@ -19,7 +17,6 @@ const Plant = mongoose.model("Plant", plantSchema)
 const app = express()
 // What was missing
 app.use(express.json())
-const PORT = 3000
 let plants = [
     {
         id: '1', 
@@ -68,11 +65,14 @@ app.post('/plants/:id/water', async (req, res) => {
         const plant = await Plant.findOne({id: Number(req.params.id)})
         if(!plant) return res.status(404).json({error: "Plant not Found"})
 
-        if(plant.status === 'retired')
+        if(plant.status === 'retired') {
             return res.status(409).json({error: "Cannot be watered retired plant"})
+        }
+
         plant.lastWateredAt = new Date()
         plant.status = "healthy"
         await plant.save()
+
         res.status(200).json(plant)
     } catch (error) {
         res.status(500).json({error: error.message})
@@ -136,9 +136,4 @@ app.delete('/plants/:id', async (req, res) => {
     
 })
 
-// below we are connecting the MONGODB database
-mongoose.connect(MONGODB_URI).then(() => {
-    app.listen(PORT, () => {
-        console.log(`Listening on http://localhost:${PORT}`)
-    })
-})
+module.exports = app
