@@ -17,16 +17,7 @@ const Plant = mongoose.model("Plant", plantSchema)
 const app = express()
 // What was missing
 app.use(express.json())
-let plants = [
-    {
-        id: '1', 
-        nickname: 'Mike', 
-        location: 'living_room',
-        wateringInterval: 7,
-        status: 'healthy'
-    }
-]
-let nextId = 2
+
 
 app.get('/health', (req, res) => {
     res.status(200).json({status: 'ok'})

@@ -32,7 +32,7 @@ function attachListeners() {
 
 async function connectDatabase(uri = mongoUri) {
     // this strips the query fields that are not in the schema instead forwarding them to MONGODB a small way to guard against the user input reaching a query iba a shape you never meant for or use.
-    mongoose.set("scriptQuery", true)
+    mongoose.set("strictQuery", true)
     attachListeners()
 
     try {

@@ -5,13 +5,17 @@
         "jmarsh",
         "jscoverage",
         "jspm",
+        "maxlength",
         "Microbundle",
         "Nuxt",
         "pids",
         "plantopedia",
+        "premade",
         "stylelintcache",
+        "virtuals",
         "vitepress",
         "vuepress",
+        "whitepages",
         "wscript"
     ]
 }
