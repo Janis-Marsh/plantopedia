@@ -8,7 +8,7 @@ const ApiError = require('../utils/ApiError')
  * return the same packet response as every other failure as if the record existed but no 
  * access...ect
  */
-modules.exports = function notFound(req, res, next) {
+module.exports = function notFound(req, res, next) {
     next(new ApiError(404, `Route not found: ${req.method} ${req.originalUrl}`))
 }
 /** next function: remember that the next function is used in the middleware as a callback

@@ -106,7 +106,7 @@ plantSchema.virtual('nextWateringDue').get(function getNextWateringDue() {
 plantSchema.virtual('isOverdue').get(function getIsOverdue() {
     if(this.status === PLANT_STATUS.RETIRED) return false
     // checks to make sure plant isn't retired
-    const due = this.getNextWateringDue
+    const due = this.nextWateringDue
     // uses the previous virtual to compute the next date and then returns it
     return due ? due.getTime() < Date.now() : true
     // checks to make sure that there is a due if not make that due time is before now
