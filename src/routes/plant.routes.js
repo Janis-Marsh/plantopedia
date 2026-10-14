@@ -24,6 +24,7 @@ router
 
 router.post('/:id/water', plantController.waterPlant)
 
+
 // here there will be more routes each with their own combo of methods
 
 module.exports = router

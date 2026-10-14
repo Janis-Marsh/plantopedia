@@ -5,6 +5,7 @@
         "jmarsh",
         "jscoverage",
         "jspm",
+        "lcient",
         "maxlength",
         "Microbundle",
         "Nuxt",
@@ -17,6 +18,7 @@
         "vitepress",
         "vuepress",
         "whitepages",
-        "wscript"
+        "wscript",
+        "wull"
     ]
 }

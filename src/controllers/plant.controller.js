@@ -5,6 +5,8 @@ const {sendSuccess, sendCreated, sendNoContent} = require('../utils/apiresponse'
 const Plant = require('../models/plant.model.js')
 const ApiError = require('../utils/ApiError')
 const {PLANT_STATUS} = require('../config/constants')
+// Stage 2:
+const {parsePagination, parseSort, buildMeta, buildPlantFilter} = require('../utils/queryFeatures.js')
 
 /**
  * Plant HTTP handlers
@@ -16,7 +18,25 @@ const {PLANT_STATUS} = require('../config/constants')
 // const create = asyncHandler(async (req, res) => {
 //     return Plant.create(req.body)
 // })
+/**Stage 2: fields a client is allowed to see 
+ * 
+ * Everything else in the body is ignored. Without a list like we are about to make
+ * Plant.create(req.body) lets anyone POST {'ownerId': "someone else's id"} and
+ * creates a record under another account which would quietly undo the ownership rules that we made so far.
+ * The server decides ownerId the client never gets a vote is ow it should be,
+ * thus kind of bug is called a mass assignment bug/weakness
+*/
 
+const WRITABLE_FIELDS = ['nickname', 'species', 'location', 'waterIntervalDays', 'lastWateredAt', 'status', 'notes']
+// notice that ownerId was not included and should not be allow the user to change the field
+
+function pickWritableFields(body={}){
+    const payload = {}
+    for (const field of WRITABLE_FIELDS){
+        if(body[field] !== undefined) payload[field] = body[field]
+    }
+    return payload
+}
 // GET /api/v1/plants/stats
 const plantStats = asyncHandler(async (req, res) => {
     const [total, grouped, all] = await Promise.all([
@@ -34,12 +54,11 @@ const plantStats = asyncHandler(async (req, res) => {
 
 // GET /api/v1/plants
 const getAllPlants = asyncHandler(async (req, res) => {
-    try {
-        const plants = await Plant.find({})
-        res.status(200).json({success:true, data:plants})
-    } catch (error) {
-        res.status(500).json({success:false, error:error})
-    }
+    /** Stage 2: pagination, features; sorting, filtering
+     * 
+     * each helper function should throw a 400 ApiError on bad inputs and the asyncHandler wil forward ut to the errorHandler so this handles all forms of error 
+     * */ 
+    //const filter = 
 })
 
 // POST /api/v1/plants/

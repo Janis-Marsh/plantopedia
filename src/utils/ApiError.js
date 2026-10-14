@@ -6,6 +6,11 @@ class ApiError extends Error {
         this.isOperational = true
         Error.captureStackTrace(this, this.constructor)
     }
+
+    /** Stage 2: fix all the static shortcuts and create proper error functions
+     * 
+     * We will pick up here tomorrow
+     */
 }
 
 module.exports = ApiError

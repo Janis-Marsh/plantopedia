@@ -96,7 +96,7 @@ const plantSchema = new mongoose.Schema(
 plantSchema.virtual('nextWateringDue').get(function getNextWateringDue() {
     if(!this.lastWateredAt) return null
     const due = new Date(this.lastWateredAt)
-    due.setDate(due.getDate + this.wateringIntervalDays)
+    due.setDate(due.getDate() + this.wateringIntervalDays)
     // calculates when the next acceptable water day is based on the lastWateredAt
     // field and data
     return due
