@@ -21,6 +21,7 @@ app.use(express.json({limit:'10kb'}))
 app.use(express.urlencoded({extended:true, limit:'10kb'}))
 
 // app.use('/health', healthRoutes)
+//app.use('/health', healthRoutes)
 app.use(API_PREFIX, routes)
 
 app.use(notFound)

@@ -27,7 +27,7 @@ const {parsePagination, parseSort, buildMeta, buildPlantFilter} = require('../ut
  * thus kind of bug is called a mass assignment bug/weakness
 */
 
-const WRITABLE_FIELDS = ['nickname', 'species', 'location', 'waterIntervalDays', 'lastWateredAt', 'status', 'notes']
+const WRITABLE_FIELDS = ['nickname', 'species', 'location', 'wateringIntervalDays', 'lastWateredAt', 'status', 'notes']
 // notice that ownerId was not included and should not be allow the user to change the field
 
 function pickWritableFields(body={}){
@@ -58,12 +58,31 @@ const getAllPlants = asyncHandler(async (req, res) => {
      * 
      * each helper function should throw a 400 ApiError on bad inputs and the asyncHandler wil forward ut to the errorHandler so this handles all forms of error 
      * */ 
-    //const filter = 
+    const filter = buildPlantFilter(req.query)
+    const sort = parseSort(req.query.sort)
+    const {page, limit, skip} = parsePagination(req.query)
+
+    /**2 queries eun together rather than one after the other the page of records and the total number of matches the client needs to know how many pages will exist. countDocuments uses the same filter so the count describes the filtered set, not the whole collection */
+    const [plant, total] = await Promise.all([
+        Plant.find(filter).sort(sort).skip(skip).limit(limit),
+        Plant.countDocuments(filter)
+    ])
+    /** the meta data will fo along with the sendSuccess extra argument so the response will be
+     * {success, data, meta} and the single
+     */
+    sendSuccess(res, plant, 200, {meta: buildMeta({page, limit, total})})
 })
 
 // POST /api/v1/plants/
 const createPlant = asyncHandler(async (req, res) => {
-    const plant = await Plant.create(req.body)
+    /**this is the line that plant.model.js is waiting for
+     * requireAuth guarantees req.user exists so the new record is going to be stamped with the id of whoever is logged in. ownerId is set from the token, never from the body, which is why the pickWritableFields filters the body first
+     */
+    const plant = await Plant.create({
+        ...pickWritableFields(req.body),
+        ownerId: req.user._id
+        // using the mongodb is -- _id
+    })
     sendCreated(res, plant)
 })
 

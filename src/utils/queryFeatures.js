@@ -66,7 +66,7 @@ function parseSort(sortParam){
  * @param {{page:number, limit:number, total:number}} args
  */
 
-function buildMeta({}){
+function buildMeta({page, limit, total}){
     const totalPages = limit > 0 ? Math.ceil(total / limit) : 0
 
     return{
@@ -108,7 +108,7 @@ function buildPlantFilter(query={}){
         // sets te filter query status to a status on the whitelist
     }
     if(query.location){
-        if(!PLANT_STATUSES.includes(query.location)){
+        if(!LOCATIONS.includes(query.location)){
             // checks to see is the given status is in the approved statuses list
             throw ApiError.badRequest(`'${query.location}' is not a supported location. Valid: ${LOCATIONS.join(', ')}`)
             // ERRORS if the query.status is present but not on the list
