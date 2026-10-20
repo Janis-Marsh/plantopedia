@@ -16,16 +16,16 @@ const userSchema = new mongoose.Schema(
         },
         email:{
             type:String,
-            required:[true, 'name required'],
+            required:[true, 'email required'],
             unique:true,
             // unique is a =n index not a validator. Mongoose will ote raise validation error
             lowercase:true,
             trim:true,
-            match:[/^[^\s@]+@[^\s@\.[^\s@]+$/, 'please provide a valid email']
+            match:[/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'please provide a valid email']
         },
         password:{
             type:String,
-            required:[true, 'name required'],
+            required:[true, 'password required'],
             minlength:[8, 'password must be at least 8 characters long'],
             select: false
             /** select: false keeps the hash (encrypted password) out of every result unless specifically request using .select("password") */

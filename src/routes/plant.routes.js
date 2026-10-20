@@ -2,6 +2,7 @@
 
 const express = require('express')
 const plantController = require('../controllers/plant.controller')
+const {requireAuth} = require('../middleware/auth')
 
 
 const router = express.Router()
@@ -13,7 +14,7 @@ router
     .route('/')
         // any get on this route will execute the controller func
         .get(plantController.getAllPlants)
-        .post(plantController.createPlant)
+        .post(requireAuth, plantController.createPlant)
 router
     .route('/:id')
         .get(plantController.getOnePlant)

@@ -1,7 +1,7 @@
 'use strict'
 
 const asyncHandler = require('../utils/asyncHandler')
-const {sendSuccess, sendCreated, sendNoContent} = require('../utils/apiresponse')
+const {sendSuccess, sendCreate, sendNoContent} = require('../utils/apiresponse')
 const Plant = require('../models/plant.model.js')
 const ApiError = require('../utils/ApiError')
 const {PLANT_STATUS} = require('../config/constants')
@@ -49,7 +49,7 @@ const plantStats = asyncHandler(async (req, res) => {
         ...acc, [row._id]: row.count
     }), {})
     const overdue = all.filter((plant) => plant.isOverdue).length
-    sendCreated(res, {total, byStatus, overdue})
+    sendCreate(res, {total, byStatus, overdue})
 })
 
 // GET /api/v1/plants
@@ -83,7 +83,7 @@ const createPlant = asyncHandler(async (req, res) => {
         ownerId: req.user._id
         // using the mongodb is -- _id
     })
-    sendCreated(res, plant)
+    sendCreate(res, plant)
 })
 
 // GET /api/v1/plants/:id
@@ -112,7 +112,7 @@ const updatePlant = asyncHandler(async (req, res) => {
         new:true, runValidators:true
     })
     if (!plant) throw ApiError.notFound('Plant not found')
-    sendCreated(res, plant)
+    sendCreate(res, plant)
 })
 
 // DELETE /api/v1/plants/:id

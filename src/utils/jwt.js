@@ -17,4 +17,37 @@
 
 const jwt = require('jsonwebtoken')
 const {jwtSecret, jwtExpiresIn} = require('../config/env')
+const ApiError = require('./ApiError')
 
+function signToken(user) {
+    
+    /**
+     * 'sub' or subject is the standard JQE claim from : Who is this token
+     * we keep the payload tiny on purpose. the users row can change at any time
+     * so the id is the only thing worth carrying in. 
+     * We will worry about role later when we are doing permission checks
+     */
+    const payload = {sub: String(user._id), role: user.role}
+    return jwt.sign(payload, jwtSecret, {expiresIn: jwtExpiresIn})
+}
+
+/**verify Token will given and handing back a token
+ * the jwt library throws its own error types, we use ApiError to translate so the rest of 
+ * the app will still work. The makes sure that a bad token will become a clean 401 and not
+ * and accident server breaking 500
+ * 
+ * @param {string} token
+ * @param {{sub:string, role:string, iat:number, exp:number}}
+ */
+
+function verifyToken(token){
+    try {
+        return jwt.verify(token, jwtSecret)
+    } catch (error) {
+        /**this error will cover forged signatures, signed with different secret but the right fields. Also a note that when you are making error message for user input
+         * is that you must make the res not too detailed. otherwise the attackers will be able to use you overly detailed error to create a forgery good enough to get into the system
+         */
+        throw ApiError.unauthorized('Invalid Token')
+    }
+}
+module.exports = {signToken, verifyToken}

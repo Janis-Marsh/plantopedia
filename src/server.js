@@ -1,5 +1,5 @@
 const {connectDatabase, disconnectDatabase} = require('./config/database.js')
-const {port} = require('./config/env.js')
+const {port, nodeEnv} = require('./config/env.js')
 const app = require('./app.js')
 const {API_PREFIX} = require('./config/constants')
 
