@@ -1,7 +1,7 @@
 'use strict'
 
 const asyncHandler = require('../utils/asyncHandler')
-const {sendSuccess, sendCreate, sendNoContent} = require('../utils/apiresponse')
+const {sendSuccess, sendCreate, sendNoContent} = require('../utils/apiResponse')
 const Plant = require('../models/plant.model.js')
 const ApiError = require('../utils/ApiError')
 const {PLANT_STATUS} = require('../config/constants')

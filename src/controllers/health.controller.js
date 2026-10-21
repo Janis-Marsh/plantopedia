@@ -1,7 +1,7 @@
 'use strict'
 
 const {isConnected} = require('../config/database.js')
-const {sendSuccess} = require('../utils/apiresponse.js')
+const {sendSuccess} = require('../utils/apiResponse.js')
 
 function health(req,res){
     sendSuccess(res, {
