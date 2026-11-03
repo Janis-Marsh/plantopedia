@@ -30,7 +30,7 @@ const plantSchema = new mongoose.Schema(
         location:{
             type: String,
             required: [true, 'location required'],
-            enum:{values: LOCATIONS, message: '{VALUE is not a supported location'}
+            enum:{values: LOCATIONS, message: '{VALUE} is not a supported location'}
             // enum only allows for the preset options defined by you and if none of those
             // are options set as a value then the validation will fail and the message will appear
         },
@@ -46,7 +46,7 @@ const plantSchema = new mongoose.Schema(
         },
         status:{
             type: String,
-            enum: {values: PLANT_STATUSES, message: '{VALUE is not a supported status'},
+            enum: {values: PLANT_STATUSES, message: '{VALUE} is not a supported status'},
             default: PLANT_STATUS.HEALTHY
         },
         notes:{
