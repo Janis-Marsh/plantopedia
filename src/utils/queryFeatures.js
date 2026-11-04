@@ -38,7 +38,7 @@ function parsePagination(query={}){
  * @throws {ApiError} 400 when a field is not sortable
  */
 function parseSort(sortParam){
-    if(sortParam || typeof sortParam !== 'string') return {...DEFAULT_SORT}
+    if(!sortParam || typeof sortParam !== 'string') return {...DEFAULT_SORT}
 
     const sort = {}
 
